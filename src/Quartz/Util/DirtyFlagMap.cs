@@ -478,7 +478,7 @@ public class DirtyFlagMap<TKey, TValue> : IDictionary<TKey, TValue?>, IDictionar
             return false;
         }
 
-        IDictionary targetAux = new Hashtable(values);
+        Hashtable targetAux = new Hashtable(values);
 
         if (Count == targetAux.Count)
         {

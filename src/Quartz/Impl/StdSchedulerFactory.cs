@@ -450,12 +450,12 @@ Please add configuration to your application config file to correctly initialize
             }
         }
 
-        if (schedInstId.Equals(AutoGenerateInstanceId))
+        if (schedInstId == AutoGenerateInstanceId)
         {
             autoId = true;
             instanceIdGeneratorType = loadHelper.LoadType(cfg.GetStringProperty(PropertySchedulerInstanceIdGeneratorType)) ?? typeof(SimpleInstanceIdGenerator);
         }
-        else if (schedInstId.Equals(SystemPropertyAsInstanceId))
+        else if (schedInstId == SystemPropertyAsInstanceId)
         {
             autoId = true;
             instanceIdGeneratorType = typeof(SystemPropertyInstanceIdGenerator);
@@ -977,7 +977,7 @@ Please add configuration to your application config file to correctly initialize
 
         try
         {
-            IJobRunShellFactory jrsf = new StdJobRunShellFactory();
+            var jrsf = new StdJobRunShellFactory();
 
             if (autoId)
             {

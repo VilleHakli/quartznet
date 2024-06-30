@@ -284,7 +284,7 @@ public sealed class CronExpression : ISerializable
         BuildExpression(CronExpressionString);
     }
 
-    private int GetVersion(SerializationInfo info)
+    private static int GetVersion(SerializationInfo info)
     {
         try
         {
@@ -301,7 +301,7 @@ public sealed class CronExpression : ISerializable
     /// </summary>
     private CronExpression(SerializationInfo info, StreamingContext context)
     {
-        var version = GetVersion(info);
+        var version = CronExpression.GetVersion(info);
         switch (version)
         {
             case 0:
@@ -580,7 +580,7 @@ public sealed class CronExpression : ISerializable
                 ThrowHelper.ThrowFormatException("Unexpected end of string.");
             }
 
-            incr = GetNumericValue(s, i);
+            incr = CronExpression.GetNumericValue(s, i);
             CheckIncrementRange(incr, type);
         }
         else
@@ -682,7 +682,7 @@ public sealed class CronExpression : ISerializable
         var eval = -1;
         if (type == CronExpressionConstants.Month)
         {
-            sval = GetMonthNumber(sub) + 1;
+            sval = CronExpression.GetMonthNumber(sub) + 1;
             if (sval <= 0)
             {
                 ThrowHelper.ThrowFormatException($"Invalid Month value: '{sub.ToString()}'");
@@ -693,7 +693,7 @@ public sealed class CronExpression : ISerializable
                 {
                     i += 4;
                     sub = s.Slice(i, 3);
-                    eval = GetMonthNumber(sub) + 1;
+                    eval = CronExpression.GetMonthNumber(sub) + 1;
                     if (eval <= 0)
                     {
                         ThrowHelper.ThrowFormatException($"Invalid Month value: '{sub.ToString()}'");
@@ -703,7 +703,7 @@ public sealed class CronExpression : ISerializable
         }
         else if (type == CronExpressionConstants.DayOfWeek)
         {
-            sval = GetDayOfWeekNumber(sub);
+            sval = CronExpression.GetDayOfWeekNumber(sub);
             if (sval < 0)
             {
                 ThrowHelper.ThrowFormatException($"Invalid Day-of-Week value: '{sub.ToString()}'");
@@ -716,7 +716,7 @@ public sealed class CronExpression : ISerializable
                     case '-':
                         i += 4;
                         sub = s.Slice(i, 3);
-                        eval = GetDayOfWeekNumber(sub);
+                        eval = CronExpression.GetDayOfWeekNumber(sub);
                         if (eval < 0)
                         {
                             ThrowHelper.ThrowFormatException($"Invalid Day-of-Week value: '{sub.ToString()}'");
@@ -1051,7 +1051,7 @@ public sealed class CronExpression : ISerializable
         ).ToString();
     }
 
-    private string GetExpressionSetSummary(ICollection<int> data)
+    private static string GetExpressionSetSummary(ICollection<int> data)
     {
         if (data.Contains(CronExpressionConstants.NoSpec))
         {
@@ -1070,7 +1070,7 @@ public sealed class CronExpression : ISerializable
             var val = iVal.ToString(CultureInfo.InvariantCulture);
             if (!first)
             {
-                buf.Append(",");
+                buf.Append(',');
             }
             buf.Append(val);
             first = false;
@@ -1088,7 +1088,7 @@ public sealed class CronExpression : ISerializable
         return position;
     }
 
-    private int FindNextWhiteSpace(int position, ReadOnlySpan<char> str)
+    private static int FindNextWhiteSpace(int position, ReadOnlySpan<char> str)
     {
         for (; position < str.Length && (str[position] != ' ' || str[position] != '\t'); position++)
         {
@@ -1334,9 +1334,9 @@ public sealed class CronExpression : ISerializable
     /// <summary>
     /// Gets the numeric value from string.
     /// </summary>
-    private int GetNumericValue(ReadOnlySpan<char> s, int i)
+    private static int GetNumericValue(ReadOnlySpan<char> s, int i)
     {
-        var endOfVal = FindNextWhiteSpace(i, s);
+        var endOfVal = CronExpression.FindNextWhiteSpace(i, s);
         return ToInt32(s.Slice(i, endOfVal - i));
     }
 
@@ -1345,7 +1345,7 @@ public sealed class CronExpression : ISerializable
     /// </summary>
     /// <param name="s">The string to map with.</param>
     /// <returns></returns>
-    private int GetMonthNumber(ReadOnlySpan<char> s)
+    private static int GetMonthNumber(ReadOnlySpan<char> s)
     {
         return s switch
         {
@@ -1365,7 +1365,7 @@ public sealed class CronExpression : ISerializable
         };
     }
 
-    private int GetDayOfWeekNumber(ReadOnlySpan<char> s)
+    private static int GetDayOfWeekNumber(ReadOnlySpan<char> s)
     {
         return s switch
         {

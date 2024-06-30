@@ -150,7 +150,7 @@ public class Key<T> : IComparable<Key<T>>
                 return false;
             }
         }
-        else if (!group.Equals(other.group))
+        else if (group != other.group)
         {
             return false;
         }
@@ -161,7 +161,7 @@ public class Key<T> : IComparable<Key<T>>
                 return false;
             }
         }
-        else if (!name.Equals(other.name))
+        else if (name != other.name)
         {
             return false;
         }
@@ -177,11 +177,11 @@ public class Key<T> : IComparable<Key<T>>
 
         if (!ReferenceEquals(group, o.group))
         {
-            if (DefaultGroup.Equals(group) && !DefaultGroup.Equals(o.group))
+            if (group == DefaultGroup && o.group != DefaultGroup)
             {
                 return -1;
             }
-            if (!DefaultGroup.Equals(group) && DefaultGroup.Equals(o.group))
+            if (group != DefaultGroup && o.group == DefaultGroup)
             {
                 return 1;
             }

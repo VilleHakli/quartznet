@@ -67,9 +67,9 @@ internal sealed class DailyTimeIntervalTriggerPersistenceDelegate : SimpleProper
         TimeOfDay startTimeOfDay = dailyTrigger.StartTimeOfDay;
         if (startTimeOfDay != null)
         {
-            timeOfDayBuffer.Append(startTimeOfDay.Hour).Append(",");
-            timeOfDayBuffer.Append(startTimeOfDay.Minute).Append(",");
-            timeOfDayBuffer.Append(startTimeOfDay.Second).Append(",");
+            timeOfDayBuffer.Append(startTimeOfDay.Hour).Append(',');
+            timeOfDayBuffer.Append(startTimeOfDay.Minute).Append(',');
+            timeOfDayBuffer.Append(startTimeOfDay.Second).Append(',');
         }
         else
         {
@@ -79,8 +79,8 @@ internal sealed class DailyTimeIntervalTriggerPersistenceDelegate : SimpleProper
         TimeOfDay endTimeOfDay = dailyTrigger.EndTimeOfDay;
         if (endTimeOfDay != null)
         {
-            timeOfDayBuffer.Append(endTimeOfDay.Hour).Append(",");
-            timeOfDayBuffer.Append(endTimeOfDay.Minute).Append(",");
+            timeOfDayBuffer.Append(endTimeOfDay.Hour).Append(',');
+            timeOfDayBuffer.Append(endTimeOfDay.Minute).Append(',');
             timeOfDayBuffer.Append(endTimeOfDay.Second);
         }
         else

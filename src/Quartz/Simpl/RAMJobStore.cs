@@ -877,7 +877,7 @@ public class RAMJobStore : IJobStore
             foreach (TriggerWrapper triggerWrapper in triggersByKey.Values)
             {
                 IOperableTrigger trigg = triggerWrapper.Trigger;
-                if (trigg.CalendarName != null && trigg.CalendarName.Equals(calName))
+                if (trigg.CalendarName != null && trigg.CalendarName == calName)
                 {
                     numRefs++;
                 }
@@ -1123,7 +1123,7 @@ public class RAMJobStore : IJobStore
             foreach (var tw in triggersByKey.Values)
             {
                 var tcalName = tw.Trigger.CalendarName;
-                if (tcalName != null && tcalName.Equals(calName))
+                if (tcalName != null && tcalName == calName)
                 {
                     yield return tw;
                 }
@@ -1184,7 +1184,7 @@ public class RAMJobStore : IJobStore
         return new ValueTask<IReadOnlyCollection<string>>(PauseTriggersInternal(matcher));
     }
 
-    private IReadOnlyCollection<string> PauseTriggersInternal(GroupMatcher<TriggerKey> matcher)
+    private HashSet<string> PauseTriggersInternal(GroupMatcher<TriggerKey> matcher)
     {
         lock (lockObject)
         {
@@ -1997,7 +1997,7 @@ public class RAMJobStore : IJobStore
             foreach (TriggerWrapper tw in triggersByKey.Values)
             {
                 str.Append(tw.Trigger.Key.Name);
-                str.Append("/");
+                str.Append('/');
             }
 
             str.Append(" | ");

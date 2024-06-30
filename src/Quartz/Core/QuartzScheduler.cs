@@ -19,6 +19,9 @@
 
 #endregion
 
+#pragma warning disable CA2012
+
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Security;
 using System.Text;
@@ -692,7 +695,7 @@ public sealed class QuartzScheduler :
                 StringBuilder sb = new StringBuilder()
                     .Append("Unable to unschedule trigger [")
                     .Append(trigger.Key).Append("] while deleting job [")
-                    .Append(jobKey).Append("]");
+                    .Append(jobKey).Append(']');
                 ThrowHelper.ThrowSchedulerException(sb.ToString());
             }
             result = true;
@@ -946,7 +949,7 @@ public sealed class QuartzScheduler :
         ValidateState();
 
         // TODO: use builder
-        IOperableTrigger trig = new SimpleTriggerImpl(
+        SimpleTriggerImpl trig = new SimpleTriggerImpl(
             NewTriggerId(),
             SchedulerConstants.DefaultGroup,
             jobKey.Name,
@@ -2136,7 +2139,7 @@ public sealed class QuartzScheduler :
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (cancellableJobExecutionContext.FireInstanceId.Equals(fireInstanceId))
+            if (cancellableJobExecutionContext.FireInstanceId == fireInstanceId)
             {
                 cancellableJobExecutionContext.Cancel();
                 interrupted = true;

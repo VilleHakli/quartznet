@@ -991,7 +991,7 @@ public class XMLSchedulingDataProcessor
     {
         foreach (string group in jobGroupsToDelete)
         {
-            if (group.Equals("*"))
+            if (group == "*")
             {
                 logger.LogInformation("Deleting all jobs in ALL groups.");
                 foreach (string groupName in await scheduler.GetJobGroupNames(cancellationToken).ConfigureAwait(false))
@@ -1020,7 +1020,7 @@ public class XMLSchedulingDataProcessor
 
         foreach (string group in triggerGroupsToDelete)
         {
-            if (group.Equals("*"))
+            if (group == "*")
             {
                 logger.LogInformation("Deleting all triggers in ALL groups.");
                 foreach (string groupName in await scheduler.GetTriggerGroupNames(cancellationToken).ConfigureAwait(false))

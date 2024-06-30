@@ -244,18 +244,22 @@ public static class ObjectUtils
 
     public static bool IsAttributePresent(Type typeToExamine, Type attributeType)
     {
-        return typeToExamine.GetCustomAttributes(attributeType, true).Any();
+        return typeToExamine.GetCustomAttributes(attributeType, inherit: true).Length != 0;
     }
 
     public static bool IsAnyInterfaceAttributePresent(Type typeToExamine, Type attributeType)
     {
         if (IsAttributePresent(typeToExamine, attributeType))
+        {
             return true;
+        }
 
         foreach (var type in typeToExamine.GetInterfaces())
         {
             if (IsAnyInterfaceAttributePresent(type, attributeType))
+            {
                 return true;
+            }
         }
         return false;
     }
