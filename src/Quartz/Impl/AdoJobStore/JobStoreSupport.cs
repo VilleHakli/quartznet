@@ -2214,7 +2214,7 @@ public abstract class JobStoreSupport : AdoConstants, IJobStore
 
             if (lst.Count > 0)
             {
-                FiredTriggerRecord rec = lst.First();
+                FiredTriggerRecord rec = lst[0];
                 if (rec.JobDisallowsConcurrentExecution) // TODO: worry about failed/recovering/volatile job  states?
                 {
                     return StatePaused.Equals(currentState) ? StatePausedBlocked : StateBlocked;

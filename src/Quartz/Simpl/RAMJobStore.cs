@@ -555,12 +555,9 @@ public class RAMJobStore : IJobStore
                 {
                     JobWrapper jw = jobsByKey[tw.JobKey];
                     var trigs = GetTriggersForJobNoLock(tw.JobKey);
-                    if (trigs.Count == 0 && !jw.JobDetail.Durable)
+                    if (trigs.Count == 0 && !jw.JobDetail.Durable && await RemoveJob(jw.Key).ConfigureAwait(false))
                     {
-                        if (await RemoveJob(jw.Key).ConfigureAwait(false))
-                        {
-                            signaler.NotifySchedulerListenersJobDeleted(jw.Key).ConfigureAwait(false).GetAwaiter().GetResult();
-                        }
+                        signaler.NotifySchedulerListenersJobDeleted(jw.Key).ConfigureAwait(false).GetAwaiter().GetResult();
                     }
                 }
             }
