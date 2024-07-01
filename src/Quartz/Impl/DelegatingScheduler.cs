@@ -3,7 +3,7 @@ using Quartz.Spi;
 
 namespace Quartz.Impl;
 
-internal sealed class DelegatingScheduler : IScheduler
+public class DelegatingScheduler : IScheduler
 {
     private readonly IScheduler scheduler;
 
