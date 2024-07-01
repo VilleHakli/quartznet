@@ -581,7 +581,7 @@ public class RAMJobStore : IJobStore
             {
                 JobWrapper jw = jobsByKey[tw.JobKey];
                 var triggerKeys = GetTriggerKeysForJobNoLock(tw.JobKey);
-                if (triggerKeys.Count == 0 && !jw.JobDetail.Durable && await RemoveJobNoLock(jw.Key, cancellationToken).ConfigureAwait(false))
+                if (triggerKeys.Length == 0 && !jw.JobDetail.Durable && await RemoveJobNoLock(jw.Key, cancellationToken).ConfigureAwait(false))
                 {
                     await signaler.NotifySchedulerListenersJobDeleted(jw.Key, cancellationToken).ConfigureAwait(false);
                 }
@@ -1197,11 +1197,11 @@ public class RAMJobStore : IJobStore
         }
     }
 
-    private List<TriggerKey> GetTriggerKeysForJobNoLock(JobKey jobKey)
+    private TriggerKey[] GetTriggerKeysForJobNoLock(JobKey jobKey)
     {
         if (triggersByJob.TryGetValue(jobKey, out List<TriggerWrapper>? jobList))
         {
-            var trigList = new List<TriggerKey>(jobList.Count);
+            var trigList = new TriggerKey[jobList.Count];
             for (var i = 0; i < jobList.Count; i++)
             {
                 trigList[i] = jobList[i].Trigger.Key;
