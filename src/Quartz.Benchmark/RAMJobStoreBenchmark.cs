@@ -517,8 +517,9 @@ public class RAMJobStoreBenchmark
             return default;
         }
 
-        public void SignalSchedulingChange(DateTimeOffset? candidateNewNextFireTimeUtc, CancellationToken cancellationToken = default)
+        public ValueTask SignalSchedulingChange(DateTimeOffset? candidateNewNextFireTimeUtc, CancellationToken cancellationToken = default)
         {
+            return default;
         }
     }
 

@@ -345,7 +345,7 @@ public sealed class QuartzScheduler :
             await resources.JobStore.SchedulerResumed(cancellationToken).ConfigureAwait(false);
         }
 
-        schedThread.TogglePause(false);
+        schedThread.TogglePause(pause: false);
 
         logger.LogInformation("Scheduler {SchedulerIdentifier} started.", resources.GetUniqueIdentifier());
 
@@ -389,7 +389,7 @@ public sealed class QuartzScheduler :
     public async ValueTask Standby(CancellationToken cancellationToken = default)
     {
         await resources.JobStore.SchedulerPaused(cancellationToken).ConfigureAwait(false);
-        schedThread.TogglePause(true);
+        schedThread.TogglePause(pause: true);
         logger.LogInformation("Scheduler {SchedulerIdentifier} paused.", resources.GetUniqueIdentifier());
         await NotifySchedulerListenersInStandbyMode(cancellationToken).ConfigureAwait(false);
     }

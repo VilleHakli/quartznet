@@ -3132,9 +3132,9 @@ public abstract class JobStoreSupport : AdoConstants, IJobStore
         }
     }
 
-    protected internal virtual void SignalSchedulingChangeImmediately(DateTimeOffset? candidateNewNextFireTime)
+    protected internal virtual ValueTask SignalSchedulingChangeImmediately(DateTimeOffset? candidateNewNextFireTime)
     {
-        schedSignaler.SignalSchedulingChange(candidateNewNextFireTime);
+        return schedSignaler.SignalSchedulingChange(candidateNewNextFireTime);
     }
 
     //---------------------------------------------------------------------------
@@ -3930,7 +3930,7 @@ public abstract class JobStoreSupport : AdoConstants, IJobStore
             DateTimeOffset? sigTime = conn.SignalSchedulingChangeOnTxCompletion;
             if (sigTime != null)
             {
-                SignalSchedulingChangeImmediately(sigTime);
+                await SignalSchedulingChangeImmediately(sigTime).ConfigureAwait(false);
             }
 
             return result;
